@@ -19,7 +19,7 @@ def main(page: ft.Page):
                     border_radius=10,
                     bgcolor=ft.colors.CYAN_200,
                     ink=True,
-                    on_click=lambda e: main,
+                    on_click=page.add(main(page)),
                 ),
             ],
             alignment=ft.MainAxisAlignment.CENTER,
