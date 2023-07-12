@@ -39,6 +39,7 @@ def main(page: ft.Page):
             )
             page.dialog = dlg
             dlg.open = True
+
             page.update()
 
     def refresh_values(e):
