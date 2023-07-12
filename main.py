@@ -1,29 +1,41 @@
 import flet as ft
-from material_propusk import main
+import material_propusk
+
+class TodoApp(ft.UserControl):
+    def build(self):
+        self.new_task = ft.TextField(hint_text="Whats", expand=True)
+        self.tasks = ft.Column()
+        pripusk = material_propusk
+
+        # application's root control (i.e. "view") containing all other controls
+        return ft.Column(
+            width=600,
+            controls=[
+                ft.Row(
+                    controls=[
+                        self.new_task,
+                        ft.FloatingActionButton(icon=ft.icons.ADD, on_click=self.add_clicked),
+                    ],
+                ),
+                self.tasks,
+            ],
+        )
+
+    def add_clicked(self, e):
+        self.tasks.controls.append(ft.Checkbox(label=self.new_task.value))
+        self.new_task.value = ""
+        self.update()
+
 
 def main(page: ft.Page):
-    page.title = "Containers - clickable and not"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.title = "ToDo App"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.update()
 
-    page.add(
-        ft.Row(
-            [
-                ft.Container(
-                    content=ft.Text("Clickable transparent with Ink"),
-                    margin=10,
-                    padding=10,
-                    alignment=ft.alignment.center,
-                    width=150,
-                    height=150,
-                    border_radius=10,
-                    bgcolor=ft.colors.CYAN_200,
-                    ink=True,
-                    on_click=page.add(main(page)),
-                ),
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-        ),
-    )
+    # create application instance
+    todo = TodoApp()
+
+    # add application's root control to the page
+    page.add(todo)
 
 ft.app(target=main)
