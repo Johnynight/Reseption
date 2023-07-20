@@ -1,6 +1,7 @@
 import flet as ft
 import doc
 import datetime
+import create_excel
 
 
 def main(page: ft.Page):
@@ -25,12 +26,14 @@ def main(page: ft.Page):
                 extr_osnovanie=extr_osnovanee.value,
                 name_osn=name.value,
                 car=number_machine_dropdown.value,
+                gos_number=gos_number.value,
                 extra_car=extra_car.value,
                 name_driver=driver_dropdown.value,
                 extra_name_driver=extra_driver.value,
                 where=where_dropdown.value,
                 extra_where=extra_where.value,
                 why=names_nach.value,
+                exstra_why=extra_names_nach.value,
                 today=datetime.datetime.now().strftime("%d.%m%.%Y"),
                 time=datetime.datetime.today().time().strftime("%H:%M")
             )
@@ -39,11 +42,26 @@ def main(page: ft.Page):
             )
             page.dialog = dlg
             dlg.open = True
+            try:
+                create_excel.write_excel(
+                    number=number_mp.value,
+                    content=total.value,
+                    date=datetime.datetime.now().strftime("%d.%m%.%Y"),
+                    where=where_dropdown.value + extra_where.value,
+                    reason=osnovanie_dropdown.value + extr_osnovanee.value,
+                    owner=name.value
+                )
+            except:
+                dlg = ft.AlertDialog(
+                    title=ft.Text('Возникла ошибка при добавлении excel записи')
+                )
+                page.dialog = dlg
+                dlg.open = True
 
             page.update()
 
     def refresh_values(e):
-        number_mp.value = ''
+        number_mp.value = create_excel.last_value() + 1
         total.value = ''
         osnovanie_dropdown.value = ''
         extr_osnovanee.value = ''
@@ -54,6 +72,8 @@ def main(page: ft.Page):
         extra_driver.value = ''
         where_dropdown.value = ''
         extra_where.value = ''
+        gos_number.value = ''
+        extra_names_nach.value = ''
         extra_driver.visible = False
         driver_dropdown.visible = True
         number_machine_dropdown.visible = True
@@ -62,6 +82,8 @@ def main(page: ft.Page):
         extr_osnovanee.visible = False
         where_dropdown.visible = True
         extra_where.visible = False
+        extra_names_nach.visible = False
+        names_nach.visible = True
         page.update()
 
     def extr_driver(e):
@@ -94,14 +116,25 @@ def main(page: ft.Page):
             where_dropdown.visible = False
             page.update()
 
+    def extr_names_nach(e):
+        if names_nach.value == ' ':
+            extra_names_nach.visible = True
+            extra_names_nach.autofocus = True
+            names_nach.visible = False
+            page.update()
+
     number_machine_dropdown = ft.Dropdown(
         width=300,
         label='Автомобиль',
         on_change=extr_car,
         options=[
-            ft.dropdown.Option('Toyota Hilux'),
             ft.dropdown.Option('Самовывоз'),
             ft.dropdown.Option('Avis'),
+            ft.dropdown.Option('Toyota Hilux'),
+            ft.dropdown.Option('Volkswagen'),
+            ft.dropdown.Option('Renault Duster'),
+            ft.dropdown.Option('Камаз'),
+            ft.dropdown.Option('Газ'),
             ft.dropdown.Option(' ', text='Другое'),
         ]
     )
@@ -133,12 +166,14 @@ def main(page: ft.Page):
 
     names_nach = ft.Dropdown(
         width=300,
+        on_change=extr_names_nach,
         label='Подписать у:',
         options=[
             ft.dropdown.Option('Супервайзер админ. отдела: Беков А.Т.', text='Беков Ардак'),
             ft.dropdown.Option('Главный инженер: Кусаинов А.К.', text='Кусаинов Арман'),
             ft.dropdown.Option('Зам. дир. по производству: Канафин Е.Ж.', text='Канафин Еламан'),
             ft.dropdown.Option('Директор филиала: Нурахметов С.Ж.', text='Нурахметов Серик'),
+            ft.dropdown.Option(' ', text='Другое'),
         ])
 
     where_dropdown = ft.Dropdown(
@@ -155,13 +190,15 @@ def main(page: ft.Page):
         ]
     )
 
-    number_mp = ft.TextField(label="Номер материального пропуска", )
+    number_mp = ft.TextField(label="Номер материального пропуска", value=create_excel.last_value() + 1)
     total = ft.TextField(label="Что вывозят")
     extr_osnovanee = ft.TextField(label="Основание", visible=False)
     name = ft.TextField(label="Имя и фамилия")
     extra_driver = ft.TextField(label='Введите имя водителя', visible=False)
     extra_car = ft.TextField(label='Введите номер машины', visible=False)
     extra_where = ft.TextField(label='Куда', visible=False)
+    extra_names_nach = ft.TextField(label='Подписать У:', visible=False)
+    gos_number = ft.TextField(label='Гос номер:', visible=True)
 
     page.add(
         ft.Column(
@@ -171,10 +208,16 @@ def main(page: ft.Page):
                 total,
                 osnovanie_dropdown, ft.Row(controls=[extr_osnovanee]),
                 name,
-                number_machine_dropdown, ft.Row(controls=[extra_car]),
-                driver_dropdown, ft.Row(controls=[extra_driver]),
+                ft.Row(controls=[extra_car]),
+                ft.Row(
+                    controls=[
+                        number_machine_dropdown, gos_number
+                    ]
+                ),
+                driver_dropdown,
+                ft.Row(controls=[extra_driver]),
                 where_dropdown, extra_where,
-                names_nach,
+                names_nach, ft.Row(controls=[extra_names_nach])
             ]
         ),
         ft.Row(

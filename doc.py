@@ -2,8 +2,8 @@ from docxtpl import DocxTemplate
 
 
 def create_new_book(number, name_si, osnovaie, extr_osnovanie, name_osn, car, name_driver, where, extra_where, why,
-                    extra_car, extra_name_driver, today, time):
-    doc = DocxTemplate('templates/Шаблон_материального_пропуска.docx')
+                    extra_car, extra_name_driver, today, time, gos_number,exstra_why):
+    doc = DocxTemplate('templates/templates.docx')
     context = {'number': number,
                'name_si': name_si,
                'osnovaie': osnovaie,
@@ -12,10 +12,12 @@ def create_new_book(number, name_si, osnovaie, extr_osnovanie, name_osn, car, na
                'extra_car': extra_car,
                'extra_name_driver': extra_name_driver,
                'car': car,
+               'gos_number':gos_number ,
                "name_driver": name_driver,
                'where': where,
                'extra_where': extra_where,
                'why': why,
+               'exstra_why' : exstra_why,
                "today": today,
                'time': time
                }

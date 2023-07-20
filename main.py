@@ -6,6 +6,7 @@ class TodoApp(ft.UserControl):
         self.new_task = ft.TextField(hint_text="Whats", expand=True)
         self.tasks = ft.Column()
         pripusk = material_propusk
+        print('Hello world')
 
         # application's root control (i.e. "view") containing all other controls
         return ft.Column(
