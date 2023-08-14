@@ -1,7 +1,7 @@
 import flet as ft
 import doc
 import datetime
-import create_excel
+#import create_excel
 
 
 def main(page: ft.Page):
@@ -42,26 +42,26 @@ def main(page: ft.Page):
             )
             page.dialog = dlg
             dlg.open = True
-            try:
-                create_excel.write_excel(
-                    number=number_mp.value,
-                    content=total.value,
-                    date=datetime.datetime.now().strftime("%d.%m%.%Y"),
-                    where=where_dropdown.value + extra_where.value,
-                    reason=osnovanie_dropdown.value + extr_osnovanee.value,
-                    owner=name.value
-                )
-            except:
-                dlg = ft.AlertDialog(
-                    title=ft.Text('Возникла ошибка при добавлении excel записи')
-                )
-                page.dialog = dlg
-                dlg.open = True
+            # try:
+            #     create_excel.write_excel(
+            #         number=number_mp.value,
+            #         content=total.value,
+            #         date=datetime.datetime.now().strftime("%d.%m%.%Y"),
+            #         where=where_dropdown.value + extra_where.value,
+            #         reason=osnovanie_dropdown.value + extr_osnovanee.value,
+            #         owner=name.value
+            #     )
+            # except:
+            #     dlg = ft.AlertDialog(
+            #         title=ft.Text('Возникла ошибка при добавлении excel записи')
+            #     )
+            #     page.dialog = dlg
+            #     dlg.open = True
 
             page.update()
 
     def refresh_values(e):
-        number_mp.value = create_excel.last_value() + 1
+        # number_mp.value = create_excel.last_value() + 1
         total.value = ''
         osnovanie_dropdown.value = ''
         extr_osnovanee.value = ''
@@ -190,7 +190,7 @@ def main(page: ft.Page):
         ]
     )
 
-    number_mp = ft.TextField(label="Номер материального пропуска", value=create_excel.last_value() + 1)
+    number_mp = ft.TextField(label="Номер материального пропуска",)
     total = ft.TextField(label="Что вывозят")
     extr_osnovanee = ft.TextField(label="Основание", visible=False)
     name = ft.TextField(label="Имя и фамилия")
@@ -231,4 +231,4 @@ def main(page: ft.Page):
 
 
 if __name__ == '__main__':
-    ft.app(target=main)
+    ft.app(target=main, view=ft.WEB_BROWSER)
