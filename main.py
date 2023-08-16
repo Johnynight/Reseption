@@ -1,12 +1,15 @@
 import flet as ft
+
+
 # import doc
-#import datetime
-#import create_excel
+# import datetime
+# import create_excel
 
 
 def main(page: ft.Page):
     page.scroll = True
     page.title = "Форма материального пропуска"
+
     # img = ft.Image(
     #     width=200,
     #     height=75,
@@ -190,7 +193,7 @@ def main(page: ft.Page):
         ]
     )
 
-    number_mp = ft.TextField(label="Номер материального пропуска",)
+    number_mp = ft.TextField(label="Номер материального пропуска", )
     total = ft.TextField(label="Что вывозят")
     extr_osnovanee = ft.TextField(label="Основание", visible=False)
     name = ft.TextField(label="Имя и фамилия")
@@ -230,4 +233,5 @@ def main(page: ft.Page):
     )
 
 
-ft.app(target=main)
+
+ft.app(target=main, view=ft.WEB_BROWSER)
