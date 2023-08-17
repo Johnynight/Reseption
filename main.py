@@ -1,9 +1,7 @@
 import flet as ft
-
-
-# import doc
-# import datetime
-# import create_excel
+import doc
+import datetime
+import create_excel
 
 
 def main(page: ft.Page):
@@ -22,49 +20,49 @@ def main(page: ft.Page):
             number_mp.error_text = "Обязательно заполните поле"
             page.update()
         else:
-            # doc.create_new_book(
-            #     number=number_mp.value,
-            #     name_si=total.value,
-            #     osnovaie=osnovanie_dropdown.value,
-            #     extr_osnovanie=extr_osnovanee.value,
-            #     name_osn=name.value,
-            #     car=number_machine_dropdown.value,
-            #     gos_number=gos_number.value,
-            #     extra_car=extra_car.value,
-            #     name_driver=driver_dropdown.value,
-            #     extra_name_driver=extra_driver.value,
-            #     where=where_dropdown.value,
-            #     extra_where=extra_where.value,
-            #     why=names_nach.value,
-            #     exstra_why=extra_names_nach.value,
-            #     today=datetime.datetime.now().strftime("%d.%m%.%Y"),
-            #     time=datetime.datetime.today().time().strftime("%H:%M")
-            # )
+            doc.create_new_book(
+                number=number_mp.value,
+                name_si=total.value,
+                osnovaie=osnovanie_dropdown.value,
+                extr_osnovanie=extr_osnovanee.value,
+                name_osn=name.value,
+                car=number_machine_dropdown.value,
+                gos_number=gos_number.value,
+                extra_car=extra_car.value,
+                name_driver=driver_dropdown.value,
+                extra_name_driver=extra_driver.value,
+                where=where_dropdown.value,
+                extra_where=extra_where.value,
+                why=names_nach.value,
+                exstra_why=extra_names_nach.value,
+                today=datetime.datetime.now().strftime("%d.%m%.%Y"),
+                time=datetime.datetime.today().time().strftime("%H:%M")
+            )
             dlg = ft.AlertDialog(
                 title=ft.Text(f"Материальный пропуск №{number_mp.value} создан!")
             )
             page.dialog = dlg
             dlg.open = True
-            # try:
-            #     create_excel.write_excel(
-            #         number=number_mp.value,
-            #         content=total.value,
-            #         date=datetime.datetime.now().strftime("%d.%m%.%Y"),
-            #         where=where_dropdown.value + extra_where.value,
-            #         reason=osnovanie_dropdown.value + extr_osnovanee.value,
-            #         owner=name.value
-            #     )
-            # except:
-            #     dlg = ft.AlertDialog(
-            #         title=ft.Text('Возникла ошибка при добавлении excel записи')
-            #     )
-            #     page.dialog = dlg
-            #     dlg.open = True
+            try:
+                create_excel.write_excel(
+                    number=number_mp.value,
+                    content=total.value,
+                    date=datetime.datetime.now().strftime("%d.%m%.%Y"),
+                    where=where_dropdown.value + extra_where.value,
+                    reason=osnovanie_dropdown.value + extr_osnovanee.value,
+                    owner=name.value
+                )
+            except:
+                dlg = ft.AlertDialog(
+                    title=ft.Text('Возникла ошибка при добавлении excel записи')
+                )
+                page.dialog = dlg
+                dlg.open = True
 
             page.update()
 
     def refresh_values(e):
-        # number_mp.value = create_excel.last_value() + 1
+        number_mp.value = create_excel.last_value() + 1
         total.value = ''
         osnovanie_dropdown.value = ''
         extr_osnovanee.value = ''
