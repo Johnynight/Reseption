@@ -10,12 +10,12 @@ def main(page: ft.Page):
     page.scroll = True
     page.title = "Форма материального пропуска"
 
-    # img = ft.Image(
-    #     width=200,
-    #     height=75,
-    #     src=f'/Users/slavachurikov/PycharmProjects/flet/borusan.png',
-    #     fit=ft.ImageFit.CONTAIN,
-    # )
+    img = ft.Image(
+        width=200,
+        height=75,
+        src=f'borusan.png',
+        fit=ft.ImageFit.CONTAIN,
+    )
 
     def btn_click(e):
         if not number_mp.value:
