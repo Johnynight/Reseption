@@ -1,4 +1,5 @@
 from docxtpl import DocxTemplate
+from django.http import HttpResponse
 
 
 def create_new_book(number, name_si, osnovaie, extr_osnovanie, name_osn, car, name_driver, where, extra_where, why,
@@ -23,7 +24,13 @@ def create_new_book(number, name_si, osnovaie, extr_osnovanie, name_osn, car, na
                }
     doc.render(context)
 
-    return doc.save(f"Материальный пропуск №{number}.docx")
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename=mydocument.docx'
+    doc.save(response)
+    return response
+
+
+
 
 
 if __name__ == '__main__':
