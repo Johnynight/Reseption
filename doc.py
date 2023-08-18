@@ -34,4 +34,6 @@ def create_new_book(number, name_si, osnovaie, extr_osnovanie, name_osn, car, na
 
 
 if __name__ == '__main__':
-    create_new_book()
+    create_new_book(
+    )
+
